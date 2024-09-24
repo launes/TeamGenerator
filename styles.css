@@ -1,3 +1,4 @@
+
 :root {
     --container-width: 90%;
     --container-max-width: 600px;
@@ -13,15 +14,6 @@
     --transition-speed: 0.3s;
 }
 
-@media (max-width: 768px) {
-    :root {
-        --container-width: 95%;
-        --container-max-width: 100%;
-        --input-font-size: 0.9rem;
-        --button-font-size: 0.8rem;
-        --typed-font-size: 2rem;
-    }
-}
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -41,11 +33,6 @@ body {
     animation: gradientAnimation 10s ease infinite;
 }
 
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
 
 .container {
     background: linear-gradient(145deg, rgba(34, 40, 49, 0.6), rgba(34, 40, 49, 0.7)), 
@@ -64,7 +51,6 @@ body {
     padding-bottom: 40px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-clip: padding-box;
 }
 
@@ -72,6 +58,7 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.9), 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
+
 
 #typed-output {
     font-family: 'Lilita One', cursive;
@@ -82,6 +69,7 @@ body {
     height: 5.7rem;
     overflow: hidden;
 }
+
 
 .name-fields {
     display: flex;
@@ -112,11 +100,6 @@ input[type="text"]:focus {
     background: rgba(255, 255, 255, 0.12);
 }
 
-@media (max-width: 480px) {
-    input[type="text"] {
-        width: 100%;
-    }
-}
 
 .button-group {
     display: flex;
@@ -128,7 +111,7 @@ input[type="text"]:focus {
 
 button {
     border: none;
-    color: white;
+    color: #FFFFFF;
     padding: 14px 28px;
     border-radius: 30px;
     transition: all var(--transition-speed) ease;
@@ -136,7 +119,7 @@ button {
     cursor: pointer;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
+    font-weight: 700;
     letter-spacing: 0.5px;
 }
 
@@ -157,15 +140,11 @@ button:hover {
     display: none;
 }
 
-@keyframes slideInFromBottom {
-    0% { transform: translateY(100%); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
 #newEntryBtn.show {
     display: inline-block;
     animation: slideInFromBottom 0.5s ease-out;
 }
+
 
 #result {
     display: flex;
@@ -191,12 +170,7 @@ button:hover {
     transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
     transform-style: preserve-3d;
     backdrop-filter: blur(5px);
-}
-
-@media (max-width: 768px) {
-    .team-container {
-        width: 100%;
-    }
+    cursor: pointer;
 }
 
 .team-container:hover, .team-container.revealed {
@@ -211,14 +185,14 @@ button:hover {
 .team-container:before {
     content: "";
     position: absolute;
-    top: -50%;
+    top: -35%;
     left: -50%;
-    width: 200%;
+    width: 75%;
     height: 200%;
     background: linear-gradient(
         to bottom right,
         rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
+        rgba(231, 229, 229, 0.3) 50%,
         rgba(255, 255, 255, 0) 100%
     );
     transform: rotate(45deg);
@@ -231,7 +205,7 @@ button:hover {
 
 .team-container .team-item {
     opacity: 0;
-    transition: opacity 0.6s ease; /* Langsamere Animation */
+    transition: opacity 0.6s ease;
 }
 
 .team-container:hover .team-item,
@@ -243,7 +217,7 @@ button:hover {
     padding: 10px;
     border-radius: 10px;
     color: var(--text-color);
-    font-weight: bold;
+    font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -253,6 +227,7 @@ button:hover {
     z-index: 1;
     transform: translateZ(30px);
     transition: all 0.3s ease;
+    animation: subtlePulse 2s ease-in-out infinite;
 }
 
 .team-red { background: linear-gradient(135deg, #ff4d4d, #ff1a1a); }
@@ -261,31 +236,9 @@ button:hover {
 .team-yellow { background: linear-gradient(135deg, #ffc107, #e0a800); }
 .team-purple { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
 
-@keyframes fadeInScale {
-    0% { opacity: 0; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1); }
-}
-
-.team-container {
-    animation: fadeInScale 0.5s ease forwards;
-}
-
-@keyframes subtlePulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
-.team-item {
-    animation: subtlePulse 2s ease-in-out infinite;
-}
-
-.hidden {
-    display: none;
-}
 
 footer {
-    margin-top: 60px; /* Erhöht den Abstand nach oben */
+    margin-top: 60px;
     text-align: center;
 }
 
@@ -339,7 +292,7 @@ footer {
 
 .footer-text {
     position: absolute;
-    bottom: -60px; /* Erhöht den Abstand nach unten */
+    bottom: -60px;
     left: 0;
     right: 0;
     text-align: center;
@@ -350,49 +303,17 @@ footer {
     padding: 5px 0;
     background-color: transparent;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    cursor: pointer; /* Cursor-Änderung */
-    transition: transform 0.3s ease; /* Animation für den Cursor */
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .footer-text:hover {
-    transform: scale(1.1); /* Vergrößert den Text beim Hover */
+    transform: scale(1.1);
 }
 
 
-.loading-bar {
-    width: 0;
-    height: 4px;
-    background-color: var(--secondary-color);
-    transition: width 0.4s ease;
-    margin-top: 10px;
-}
-
-@keyframes pulseGrow {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-#addBtn.pulse-animation {
-    animation: pulseGrow 0.5s ease;
-}
-
-#nameFields input:nth-last-child(-n+2) {
-    animation: slideInFromRight 0.5s ease-out;
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 20px;
-    }
-    
-    #typed-output {
-        font-size: 1.8rem;
-    }
-    
-    .button-group {
-        flex-direction: column;
-    }
+.hidden {
+    display: none;
 }
 
 .visually-hidden {
@@ -405,4 +326,166 @@ footer {
     clip: rect(0,0,0,0);
     white-space: nowrap;
     border: 0;
+}
+
+.loading-bar {
+    width: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--secondary-color) 0%, 
+        var(--primary-color) 50%, 
+        var(--accent-color) 100%);
+    transition: width 0.4s ease;
+    margin-top: 10px;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.5), 
+        transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -50%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+.loading-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.hint-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #FFFFFF;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.team-container:hover .hint-text {
+    opacity: 0;
+}
+
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes slideInFromBottom {
+    0% { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes subtlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulseGrow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shine {
+    0% { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+}
+
+
+@media (max-width: 768px) {
+    :root {
+        --container-width: 95%;
+        --container-max-width: 100%;
+        --input-font-size: 0.9rem;
+        --button-font-size: 0.8rem;
+        --typed-font-size: 2rem;
+    }
+    
+    .team-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    input[type="text"] {
+        width: 100%;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    #typed-output {
+        height: auto;
+        min-height: 3em; /* Passen Sie dies an die Länge Ihrer Texte an */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    #typed-output span {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
 }

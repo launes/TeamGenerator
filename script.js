@@ -14,6 +14,7 @@ class TeamGenerator {
         this.loadingBar = document.getElementById('loadingBar');
         this.fillLoremBtn = document.getElementById('fillLoremBtn');
         this.footerText = document.getElementById('footerText');
+        this.teamsGenerated = false;
 
         this.init();
     }
@@ -30,14 +31,72 @@ class TeamGenerator {
 
     setupTyped() {
         const options = {
-            strings: ["Team Generator", "Teamauswahl", "Erstelle dein Team jetzt!"],
+            strings: ["Team Generator", "Teamauswahl"],
             typeSpeed: 90,
             backSpeed: 30,
             loop: false,
             cursorChar: '|',
-            showCursor: true
+            showCursor: true,
+            onComplete: (self) => {
+                // Entferne den Cursor nach Abschluss des Typings
+                self.cursor.remove();
+                // Füge den letzten Text hinzu und animiere ihn mit GSAP
+                this.animateFinalText();
+            }
         };
         new Typed("#typed-output", options);
+    }
+
+    animateFinalText() {
+        const texts = [
+            "Team Generator",
+            "Teamauswahl",
+            "Erstelle dein 2er Team",
+            "Zufällige Teams"
+        ];
+        
+        const finalTextElement = document.getElementById('typed-output');
+        finalTextElement.innerHTML = ''; // Leere das Element
+
+        // Erstelle für jeden Text ein eigenes Span-Element
+        texts.forEach(text => {
+            const textSpan = document.createElement('span');
+            textSpan.textContent = text;
+            textSpan.style.display = 'block';
+            textSpan.style.opacity = '0';
+            finalTextElement.appendChild(textSpan);
+        });
+
+        // Hauptanimation: Texte nacheinander einblenden und ausblenden
+        const tl = gsap.timeline({repeat: -1});
+        
+        finalTextElement.childNodes.forEach((span, index) => {
+            // Einblenden
+            tl.to(span, {
+                duration: 1.5,
+                opacity: 1,
+                y: 0,
+                ease: "power3.out",
+                onStart: () => span.style.display = 'block'
+            });
+
+            // Text stehen lassen
+            tl.to({}, {duration: 2.5});
+
+            // Ausblenden
+            tl.to(span, {
+                duration: 1.5,
+                opacity: 0,
+                y: -30,
+                ease: "power3.in",
+                onComplete: () => span.style.display = 'none'
+            });
+
+            // Pause zwischen den Texten
+            if (index < texts.length - 1) {
+                tl.to({}, {duration: 0.7});
+            }
+        });
     }
 
     generateRandomColor() {
@@ -50,18 +109,14 @@ class TeamGenerator {
     }
 
     generateGradientBackground() {
-        const color1 = this.generateRandomColor();
-        const color2 = this.generateRandomColor();
-        const color3 = this.generateRandomColor();
-        const angle1 = Math.floor(Math.random() * 360);
-        const angle2 = Math.floor(Math.random() * 360);
-        return `linear-gradient(${angle1}deg, ${color1}, ${color2}), linear-gradient(${angle2}deg, ${color2}, ${color3})`;
+        const colors = Array(3).fill().map(() => this.generateRandomColor());
+        const angles = Array(2).fill().map(() => Math.floor(Math.random() * 360));
+        return `linear-gradient(${angles[0]}deg, ${colors[0]}, ${colors[1]}), linear-gradient(${angles[1]}deg, ${colors[1]}, ${colors[2]})`;
     }
 
     changeBackgroundImage() {
         document.body.style.backgroundImage = this.generateGradientBackground();
     }
-
     addEventListeners() {
         this.addBtn.addEventListener('click', this.addFields.bind(this));
         this.generateBtn.addEventListener('click', this.generateTeams.bind(this));
@@ -69,33 +124,32 @@ class TeamGenerator {
     }
 
     addFields() {
-        if (this.currentCount < 10) {
+        if (this.currentCount < 10 && !this.teamsGenerated) {
+            const fragment = document.createDocumentFragment();
             for (let i = 0; i < 2; i++) {
                 this.currentCount++;
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id = 'name' + this.currentCount;
-                input.placeholder = 'Name ' + this.currentCount;
-                input.required = true;
-                input.maxLength = this.MAX_NAME_LENGTH;
-                input.addEventListener('focus', this.handleInputFocus);
-                input.addEventListener('blur', this.handleInputBlur);
-                this.nameFields.appendChild(input);
+                const input = this.createInput(this.currentCount);
+                fragment.appendChild(input);
             }
-            if (this.currentCount >= 10) {
-                this.addBtn.style.display = 'none';
-            }
-
+            this.nameFields.appendChild(fragment);
+            this.addBtn.style.display = this.currentCount >= 10 ? 'none' : 'inline-block';
             this.addBtn.classList.add('pulse-animation');
-            setTimeout(() => {
-                this.addBtn.classList.remove('pulse-animation');
-            }, 500);
-
-            const newInputs = this.nameFields.querySelectorAll('input:nth-last-child(-n+2)');
-            newInputs.forEach(input => {
-                input.style.animation = 'slideInFromRight 0.5s ease-out';
-            });
+            setTimeout(() => this.addBtn.classList.remove('pulse-animation'), 500);
+            this.updateButtonVisibility();
         }
+    }
+
+    createInput(count) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = `name${count}`;
+        input.placeholder = `Name ${count}`;
+        input.required = true;
+        input.maxLength = this.MAX_NAME_LENGTH;
+        input.addEventListener('focus', this.handleInputFocus);
+        input.addEventListener('blur', this.handleInputBlur);
+        input.style.animation = 'slideInFromRight 0.5s ease-out';
+        return input;
     }
 
     handleInputFocus(event) {
@@ -124,6 +178,9 @@ class TeamGenerator {
                 alert('Bitte gib mindestens 4 gültige Namen ein.');
                 return;
             }
+
+            this.teamsGenerated = true;
+            this.updateButtonVisibility();
 
             this.loadingBar.classList.remove('hidden');
             let width = 0;
@@ -171,6 +228,8 @@ class TeamGenerator {
             input.addEventListener('focus', this.handleInputFocus);
             input.addEventListener('blur', this.handleInputBlur);
         });
+        this.teamsGenerated = false;
+        this.updateButtonVisibility();
     }
 
     validateInput(input) {
@@ -222,11 +281,18 @@ class TeamGenerator {
                 teamItem.className = `${colorClass} team-item`;
                 teamItem.innerHTML = '<span></span>';
 
+                // Hinzufügen des Hinweistextes
+                const hintText = document.createElement('div');
+                hintText.className = 'hint-text';
+                hintText.textContent = 'Anzeigen';
+                teamContainer.appendChild(hintText);
+
                 teamContainer.appendChild(teamItem);
                 this.resultContainer.appendChild(teamContainer);
 
                 teamContainer.addEventListener('mouseover', function() {
                     this.classList.add('revealed');
+                    hintText.style.display = 'none'; // Verstecke den Hinweistext beim Hover
                 }, { once: true });
 
                 teamContainer.addEventListener('mousemove', function(e) {
@@ -290,5 +356,13 @@ class TeamGenerator {
         document.documentElement.style.setProperty('--typed-font-size', `${Math.max(1.5, Math.min(2.5, vw / 30))}rem`);
         document.documentElement.style.setProperty('--input-font-size', `${Math.max(0.8, Math.min(1, vw / 50))}rem`);
         document.documentElement.style.setProperty('--button-font-size', `${Math.max(0.7, Math.min(0.9, vw / 55))}rem`);
+    }
+
+    updateButtonVisibility() {
+        if (this.teamsGenerated) {
+            this.addBtn.style.display = 'none';
+        } else {
+            this.addBtn.style.display = this.currentCount >= 10 ? 'none' : 'inline-block';
+        }
     }
 }
