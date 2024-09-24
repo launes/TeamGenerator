@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js" defer></script>
+    <link rel="icon" href="path/to/favicon.ico" type="♥">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Einfacher und schneller Team Generator für Gruppen und Spiele">
+    <meta name="keywords" content="Team Generator, Gruppenbildung, Zufallsteams">
+</head>
+<body>
+    <div class="container" role="main" aria-labelledby="typed-output">
+        <div id="typed-output" aria-live="polite"></div>
+        <form id="teamForm" aria-labelledby="teamFormLabel">
+            <h2 id="teamFormLabel" class="visually-hidden">Team Generator Eingabe</h2>
+            <div class="name-fields" id="nameFields" aria-labelledby="nameFieldsLabel">
+                <h3 id="nameFieldsLabel" class="visually-hidden">Namen Eingabefelder</h3>
+                <input type="text" id="name1" placeholder="Name 1" required aria-required="true">
+                <input type="text" id="name2" placeholder="Name 2" required aria-required="true">
+                <input type="text" id="name3" placeholder="Name 3" required aria-required="true">
+                <input type="text" id="name4" placeholder="Name 4" required aria-required="true">
+            </div>
+            <div class="button-group" role="group" aria-label="Aktionen">
+                <button type="button" id="addBtn" aria-label="Füge zwei weitere Namen hinzu">+2</button>
+                <button type="button" id="generateBtn" aria-label="Generiere Teams">Teams erstellen</button>
+                <button type="button" id="newEntryBtn" aria-label="Neue Eingabe">Neue Eingabe</button>
+            </div>
+        </form>
+        <div class="loading-bar hidden" id="loadingBar"></div>
+        <div id="result" aria-live="polite" aria-atomic="true"></div>
+        <div class="footer-text" id="footerText">from Launii with ♥</div>
+        <button id="fillLoremBtn" class="visually-hidden" aria-label="Fülle Namensfelder mit Lorem Ipsum">Lorem Ipsum</button>
+    </div>
+
+    <footer>
+        <a href="https://steamcommunity.com/id/217erss/" class="footer-button" target="_blank">
+            <img src="https://static-00.iconduck.com/assets.00/steam-icon-506x512-nfg4qx72.png" alt="Steam Logo" style="width: 20px; vertical-align: middle;"> Mein Steam
+        </a>
+    </footer>
+    <nav></nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
